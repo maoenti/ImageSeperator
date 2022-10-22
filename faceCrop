@@ -24,8 +24,9 @@ def crop_face(filename, name):
             pyplot.imshow(pixels[y1:y2, x1:x2])
         # show the plot
         pyplot.savefig(cropDir + '\\' + name, bbox_inches='tight', pad_inches = 0.)
+        return True
     else:
-        pass
+        return False
 
 def check_file_ext(file):
     match = re.search('\.png|jpeg|jpg$', file)
@@ -33,18 +34,28 @@ def check_file_ext(file):
         return True
 
 
-dir = '..\\minarihourly'
+dir = '..\\jeongyeonniee'
 cropDir = dir + '\\crop'
 cwd = os.getcwd()
 # make_newdir(dir)
 # create the detector, using default weights
 detector = MTCNN()
-counter = 1
+croppedCounter = 0
+globalCounter = 0
+
 for filename in os.listdir(dir):
     if check_file_ext(filename) == True:
         f = os.path.join(dir, filename)
-        crop_face(f, filename)
-        print(f'{counter}. Image {f} has been cropped successfully')
-        counter += 1
+        if crop_face(f, filename) == True:
+            croppedCounter += 1
+        # print(f'{croppedCounter}. Image {f} has been cropped successfully')
+        os.system('cls')
     else:
         pass
+    globalCounter += 1
+    percent = (globalCounter * 100) / len(os.listdir(dir))
+    print('%0.2f%% of files checked' %(percent))
+    print(f'{croppedCounter} images has been cropped')
+    if croppedCounter > 1200:
+        break
+    

@@ -36,8 +36,11 @@ def check_file_ext(file):
 
 dir = '..\\jeongyeonniee'
 cropDir = dir + '\\crop'
-cwd = os.getcwd()
-# make_newdir(dir)
+try:
+    make_newdir(dir)
+except:
+    print('Directory is already made.')
+
 # create the detector, using default weights
 detector = MTCNN()
 croppedCounter = 0
